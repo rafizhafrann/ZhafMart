@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ShoppingCart, Menu, Search, Leaf, LogOut, User as UserIcon } from 'lucide-react';
+import { ShoppingCart, Search, Leaf, LogOut, User as UserIcon } from 'lucide-react';
 
 interface HeaderProps {
   cartCount: number;
