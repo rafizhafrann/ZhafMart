@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const Hero: React.FC = () => {
   return (
     <div className="relative bg-green-800 text-white overflow-hidden mb-8 rounded-b-3xl md:rounded-3xl shadow-lg md:mx-4 md:mt-4">

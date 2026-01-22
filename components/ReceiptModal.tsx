@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { X, Printer, CheckCircle2 } from 'lucide-react';
 import { CartItem } from '../types';

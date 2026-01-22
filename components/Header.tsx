@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
-import { ShoppingCart, Menu, Search, Leaf } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ShoppingCart, Menu, Search, Leaf, LogOut, User as UserIcon } from 'lucide-react';
 
 interface HeaderProps {
   cartCount: number;
   onOpenCart: () => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  user: string;
+  onLogout: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ cartCount, onOpenCart, searchTerm, setSearchTerm }) => {
+export const Header: React.FC<HeaderProps> = ({ cartCount, onOpenCart, searchTerm, setSearchTerm, user, onLogout }) => {
   const [isPulsing, setIsPulsing] = useState(false);
 
   useEffect(() => {
@@ -28,12 +30,14 @@ export const Header: React.FC<HeaderProps> = ({ cartCount, onOpenCart, searchTer
             <div className="bg-green-600 p-2 rounded-lg group-hover:bg-green-700 transition-colors">
               <Leaf className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-green-500">
-              ZhafMart
-            </span>
+            <div className="hidden sm:block">
+              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-700 to-green-500 block leading-tight">
+                ZhafMart
+              </span>
+            </div>
           </div>
 
-          {/* Search Bar */}
+          {/* Search Bar (Desktop) */}
           <div className="hidden md:flex flex-1 mx-8 max-w-lg">
             <div className="relative w-full text-gray-600 focus-within:text-green-600">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -50,7 +54,13 @@ export const Header: React.FC<HeaderProps> = ({ cartCount, onOpenCart, searchTer
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* User Profile (Simple) */}
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full border border-green-100">
+              <UserIcon className="w-4 h-4 text-green-700" />
+              <span className="text-sm font-medium text-green-800 truncate max-w-[100px]">{user}</span>
+            </div>
+
             <button 
               onClick={onOpenCart}
               className={`relative p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-full transition-all duration-200 ${isPulsing ? 'scale-110' : 'scale-100'}`}
@@ -63,8 +73,13 @@ export const Header: React.FC<HeaderProps> = ({ cartCount, onOpenCart, searchTer
                 </span>
               )}
             </button>
-            <button className="md:hidden p-2 text-gray-500 hover:text-green-600">
-              <Menu className="h-6 w-6" />
+
+            <button 
+              onClick={onLogout}
+              className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+              title="Keluar"
+            >
+              <LogOut className="h-6 w-6" />
             </button>
           </div>
         </div>

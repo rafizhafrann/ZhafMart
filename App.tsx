@@ -5,6 +5,7 @@ import { ProductCard } from './components/ProductCard';
 import { CartSidebar } from './components/CartSidebar';
 import { ReceiptModal } from './components/ReceiptModal';
 import { Toast } from './components/Toast';
+import { Login } from './components/Login';
 import { Product, CartItem, Category } from './types';
 
 // Mock Data
@@ -46,6 +47,9 @@ const PRODUCTS: Product[] = [
 ];
 
 export default function App() {
+  // Auth State
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
+
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | 'Semua'>('Semua');
@@ -64,6 +68,17 @@ export default function App() {
     date: string;
   } | null>(null);
 
+  const handleLogin = (username: string) => {
+    setCurrentUser(username);
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    setCartItems([]); // Optional: clear cart on logout
+    setSearchTerm('');
+    setSelectedCategory('Semua');
+  };
+
   const handleAddToCart = useCallback((product: Product) => {
     setCartItems(prev => {
       const existing = prev.find(item => item.id === product.id);
@@ -75,7 +90,7 @@ export default function App() {
       return [...prev, { ...product, quantity: 1 }];
     });
     
-    // Tampilkan Toast, bukan membuka sidebar
+    // Tampilkan Toast
     setLastAddedProduct(product);
     setShowToast(true);
   }, []);
@@ -123,6 +138,11 @@ export default function App() {
     });
   }, [selectedCategory, searchTerm]);
 
+  // Conditional Rendering: Show Login if not authenticated
+  if (!currentUser) {
+    return <Login onLogin={handleLogin} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
       <Header 
@@ -130,6 +150,8 @@ export default function App() {
         onOpenCart={() => setIsCartOpen(true)}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        user={currentUser}
+        onLogout={handleLogout}
       />
 
       <main className="flex-grow">

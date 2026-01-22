@@ -39,9 +39,9 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({
               <span className="bg-green-600 text-white p-1 rounded">
                 <ShoppingBag className="w-5 h-5" /> 
               </span>
-              Keranjang Belanja
+              Keranjang
             </h2>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <button onClick={onClose} className="text-gray-400 hover:text-gray-600 p-1">
               <X className="h-6 w-6" />
             </button>
           </div>
